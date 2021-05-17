@@ -27,14 +27,14 @@ else
   USER_UID=99
 fi
 
-if [ "$USER_UID" ]; then
-  # uid specifically provided, will overwrite 99 default
-  if [[ "$USER_UID" =~ [^0-9] ]]; then
-    echo >&2 'USER_UID must contain only numerics [0-9]'
+if [ "$GROUP_GID" ]; then
+  # gid specifically provided, will overwrite 100 default
+  if [[ "$GROUP_GID" =~ [^0-9] ]]; then
+    echo >&2 'GROUP_GID must contain only numerics [0-9]'
     exit 1
   fi
 else
-  USER_UID=99
+  GROUP_GID=100
 fi
 
 useradd -Ums /bin/false -u $USER_UID $USER_NAME
