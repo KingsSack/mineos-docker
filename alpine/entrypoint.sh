@@ -18,13 +18,23 @@ else
 fi
 
 if [ "$USER_UID" ]; then
-  # uid specifically provided, will overwrite 1000 default
+  # uid specifically provided, will overwrite 99 default
   if [[ "$USER_UID" =~ [^0-9] ]]; then
     echo >&2 'USER_UID must contain only numerics [0-9]'
     exit 1
   fi
 else
-  USER_UID=1000
+  USER_UID=99
+fi
+
+if [ "$USER_UID" ]; then
+  # uid specifically provided, will overwrite 99 default
+  if [[ "$USER_UID" =~ [^0-9] ]]; then
+    echo >&2 'USER_UID must contain only numerics [0-9]'
+    exit 1
+  fi
+else
+  USER_UID=99
 fi
 
 useradd -Ums /bin/false -u $USER_UID $USER_NAME
