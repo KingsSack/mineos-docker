@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk16:alpine-jre
+FROM crux:3.2
 MAINTAINER William Dizon <wdchromium@gmail.com>
 
 RUN ports -u \
