@@ -31,13 +31,13 @@ RUN cd /root \
   && cd /root \
   && rm -rf /root/node-v4.4.0
 
-#install chpassword utility
-RUN cd /root \
-  && httpup sync http://kyber.io/crux/ports/teatime/#chpasswd chpasswd \
-  && cd /root/chpasswd \
-  && pkgmk -d -i \
-  && cd /root \
-  && rm -rf /root/chpasswd
+##install chpassword utility
+#RUN cd /root \
+#  && httpup sync http://kyber.io/crux/ports/teatime/#chpasswd chpasswd \
+#  && cd /root/chpasswd \
+#  && pkgmk -d -i \
+#  && cd /root \
+#  && rm -rf /root/chpasswd
 
 #download mineos from github
 RUN mkdir -p /usr/games/minecraft \
