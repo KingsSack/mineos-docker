@@ -1,11 +1,5 @@
 # mineos-docker
-Dockerfiles for MineOS Images
-
-Docker instances must be opened
-
-* USER_NAME=mc (optional)
-* USER_PASSWORD=mypass (required)
-* ACCEPT_ORACLE_LICENSE= (required for CRUX image only)
+Hello!
 
 CRUX:
 
