@@ -1,4 +1,4 @@
-FROM crux:3.2
+FROM crux:3.1
 MAINTAINER William Dizon <wdchromium@gmail.com>
 
 RUN ports -u \
