@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk16:alpine-jre
+FROM node:current-alpine3.12
 MAINTAINER William Dizon <wdchromium@gmail.com>
 
 RUN ports -u \
@@ -21,15 +21,38 @@ RUN ports -u \
   icu \
   && rm -rf /usr/ports/*
 
-#install node from source
-RUN cd /root \
-  && wget https://nodejs.org/dist/v4.4.0/node-v4.4.0.tar.gz \
-  && tar -xf node-v4.4.0.tar.gz \
-  && cd node-v4.4.0 \
-  && ./configure --prefix=/usr --with-intl=system-icu --shared-openssl --shared-zlib --without-snapshot \
-  && make && make install \
-  && cd /root \
-  && rm -rf /root/node-v4.4.0
+#install java
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+RUN apk add --no-cache tzdata musl-locales musl-locales-lang \
+    && rm -rf /var/cache/apk/*
+
+ENV JAVA_VERSION jdk-16.0.1+9
+
+RUN set -eux; \
+    apk add --no-cache --virtual .fetch-deps curl; \
+    ARCH="$(apk --print-arch)"; \
+    case "${ARCH}" in \
+       amd64|x86_64) \
+         ESUM='5f10ffc12056b735f5fe505ec6c481fff94de27e80c1d77ea9f9e2830669cc1d'; \
+         BINARY_URL='https://github.com/AdoptOpenJDK/openjdk16-binaries/releases/download/jdk-16.0.1%2B9/OpenJDK16U-jre_x64_alpine-linux_hotspot_16.0.1_9.tar.gz'; \
+         ;; \
+       *) \
+         echo "Unsupported arch: ${ARCH}"; \
+         exit 1; \
+         ;; \
+    esac; \
+    curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
+    echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    mkdir -p /opt/java/openjdk; \
+    cd /opt/java/openjdk; \
+    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
+    apk del --purge .fetch-deps; \
+    rm -rf /var/cache/apk/*; \
+    rm -rf /tmp/openjdk.tar.gz;
+
+ENV JAVA_HOME=/opt/java/openjdk \
+    PATH="/opt/java/openjdk/bin:$PATH"
 
 ##install chpassword utility
 #RUN cd /root \
