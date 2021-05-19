@@ -55,5 +55,5 @@ CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 8443 25576-25580
+EXPOSE 8443 25565-25570
 VOLUME /var/games/minecraft
